@@ -30,6 +30,7 @@ conda config --set show_channel_urls yes
 
 ##### 虚拟环境创建，并激活
 conda create -n pytorch python=3.6
+
 source activate pytorch
 
 ##### 安装所需的依赖库文件， Requirements
@@ -48,6 +49,7 @@ source activate pytorch
 conda install pytorch==1.5.0 torchvision==0.6.0 cudatoolkit=10.1
 
 其他库安装方法,采用pip安装，使用清华源，例如安装python-opencv
+
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple python-opencv==3.4.1.15
 
 pip install -i https://pypi.tuna.tsinghua.edu.cn/simple xxx(功能包的名字)
@@ -64,19 +66,25 @@ pip install -i https://pypi.tuna.tsinghua.edu.cn/simple xxx(功能包的名字)
 sudo apt-get install python-catkin-tools python3-dev python3-catkin-pkg-modules python3-numpy python3-yaml ros-kinetic-cv-bridge
 ##### 创建ros工作空间
 mkdir catkin_ws
+
 cd catkin_ws
+
 catkin init
 ##### 设置cmake编译时的参数
 catkin config -DPYTHON_EXECUTABLE=/usr/bin/python3 -DPYTHON_INCLUDE_DIR=/usr/include/python3.5m -DPYTHON_LIBRARY=/usr/lib/x86_64-linux-gnu/libpython3.5m.so
+
 catkin config --install
 ##### Clone cv_bridge src
 git clone https://github.com/ros-perception/vision_opencv.git src/vision_opencv
 ##### Find version of cv_bridge in your repository
 apt-cache show ros-kinetic-cv-bridge | grep Version
+
     Version: 1.12.8-0xenial-20180416-143935-0800
 ##### Checkout right version in git repo. In our case it is 1.12.8
 cd src/vision_opencv/
+
 git checkout 1.12.8
+
 cd ../../
 ##### Build
 catkin build cv_bridge
@@ -93,10 +101,12 @@ source install/setup.bash --extend
 
 #### 启动虚拟环境
 source activate your_evironment  
+
 source ~/catkin_pytorch/install/setup.bash --extend
 
 #### 运行程序
 cd Visual-Front-new
+
 python feature_match_node.py 
 
 ### 2.2 直接使用提供的.sh脚本运行
@@ -107,10 +117,12 @@ bash run_feature.sh
 #### 2.3 根据需要，更改/添加参数文件的内容，包括模型文件路径、是否显示特征跟踪窗口等
 
 根据需要自行更改的几个地方：
-feature_match_node.py文件：CamearIntrinsicParam（相机内参）, 接受话题名
-feature_process.py文件： SuperPointFrontend_torch类中 self.net，根据选择的模型更改（默认使用SuperPointNet_GhostNet）
-parameter.py: 图像（H,W）, 模型名称， 放缩尺度， 是否显示特征跟踪窗口等
 
+feature_match_node.py文件：CamearIntrinsicParam（相机内参）, 接受话题名
+
+feature_process.py文件： SuperPointFrontend_torch类中 self.net，根据选择的模型更改（默认使用SuperPointNet_GhostNet）
+
+parameter.py: 图像（H,W）, 模型名称， 放缩尺度， 是否显示特征跟踪窗口等
 
 ######################################################################################
 ## 3. 运行VINS-Mono后端
@@ -135,9 +147,11 @@ rosbag play MH_04_difficult.bag
 ## 运行顺序，由上到下依次运行
 
 cd Visual-Front-new
+
 bash run_feature.sh
 
 roslaunch vins_estimator superpoint.launch
+
 roslaunch vins_estimator vins_rviz.launch
 
 rosbag play MH_04_difficult.bag
